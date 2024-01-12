@@ -140,7 +140,26 @@
              * isFlush 参数说明是否清空已有图书列表
              */
             onchange: function (isFlush) {
-
+                const objApp = this;
+                const uri = "/api/book/list?page=" + objApp.state.page + "&categoryId=" + objApp.state.category
+                    + "&order=" + objApp.state.order;
+                axios.get(uri).then(function (response) {
+                    const json = response.data;
+                    if (json.code === "0") {
+                        const list = json.data.page.records;
+                        if (isFlush === true) {
+                            objApp.bookList.splice(0, objApp.bookList.length);
+                        }
+                        list.forEach(function (item) {
+                            objApp.bookList.push(item);
+                        })
+                        objApp.state.page = json.data.page.current;
+                        objApp.state.isLastPage = json.data.page.pages === json.data.page.current;
+                        console.info(list);
+                    } else {
+                        console.error(json);
+                    }
+                })
             },
             //点击"加载更多"按钮时,向服务器查询下一页数据
             loadMore: function () {
@@ -179,6 +198,7 @@
         , mounted() {
             //页面初始化时执行的操作
             const objApp = this;
+            this.onchange(true);
             axios.get("/api/category/list")
                 .then(function (response) {
                     const json = response.data;
