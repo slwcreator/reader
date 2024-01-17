@@ -98,7 +98,7 @@
     <template v-for="evaluation,index in evaluationList">
         <div style="border-bottom: 1px solid #cccccc">
             <div style="padding: 10px;">
-                <span style="margin-right: 20px">{{evaluation.strCreateTime}}</span>
+                <span style="margin-right: 20px">{{evaluation.ct}}</span>
                 <span style="margin-right: 20px">{{evaluation.member.nickname}}</span>
                 <van-rate v-model="evaluation.score" color="#ffd21e" void-icon="star" readonly allow-half></van-rate>
                 <van-button icon="like-o" @click="enjoy(index)" type="success" size="small"
@@ -218,7 +218,20 @@
                 } else {
                     console.error(json);
                 }
-            })
+            });
+            axios.get("/api/evaluation/list?bookId=" + bookId)
+                .then(function (response) {
+                    const json = response.data;
+                    if (json.code === "0") {
+                        const list = json.data.list;
+                        list.forEach(function (item) {
+                            item.ct = formatDate(item.create_time);
+                            objApp.evaluationList.push(item);
+                        })
+                    } else {
+                        console.error(json);
+                    }
+                });
         }
     };
     const app = Vue.createApp(main);
