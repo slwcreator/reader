@@ -17,6 +17,12 @@
     <context:component-scan base-package="com.slwer"/>
     <mvc:annotation-driven>
         <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper">
+                    <bean class="com.slwer.reader.config.CustomObjectMapper"/>
+                </property>
+            </bean>
+
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                 <property name="supportedMediaTypes">
                     <list>
