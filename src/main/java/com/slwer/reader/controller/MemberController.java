@@ -33,4 +33,24 @@ public class MemberController {
         }
         return resp;
     }
+
+    @PostMapping("/check_login")
+    public ResponseUtils checkLogin(String username, String password, String vc, HttpServletRequest request) {
+        String verifyCode = (String) request.getSession().getAttribute("kaptchaVerifyCode");
+        ResponseUtils resp;
+        if (verifyCode == null || !verifyCode.equalsIgnoreCase(vc)) {
+            resp = new ResponseUtils("VerifyCodeError", "验证码错误");
+        } else {
+            //验证码校验通过后进行用户登录查询
+            try {
+                Member member = memberService.checkLogin(username, password);
+                member.setPassword(null);
+                member.setSalt(null);
+                resp = new ResponseUtils().put("member", member);
+            } catch (Exception e) {
+                resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+            }
+        }
+        return resp;
+    }
 }
