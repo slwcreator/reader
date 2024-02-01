@@ -3,6 +3,7 @@ package com.slwer.reader.controller;
 import com.slwer.reader.entity.Member;
 import com.slwer.reader.service.MemberService;
 import com.slwer.reader.utils.ResponseUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,6 +29,7 @@ public class MemberController {
                 Member member = memberService.createMember(username, password, nickname);
                 resp = new ResponseUtils();
             } catch (Exception e) {
+                e.printStackTrace();
                 resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
             }
         }
@@ -48,8 +50,24 @@ public class MemberController {
                 member.setSalt(null);
                 resp = new ResponseUtils().put("member", member);
             } catch (Exception e) {
+                e.printStackTrace();
                 resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
             }
+        }
+        return resp;
+    }
+
+    @GetMapping("/select_by_id")
+    public ResponseUtils selectById(Long memberId) {
+        ResponseUtils resp = null;
+        try {
+            Member member = memberService.selectById(memberId);
+            member.setPassword(null);
+            member.setSalt(null);
+            resp = new ResponseUtils().put("member", member);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
         }
         return resp;
     }

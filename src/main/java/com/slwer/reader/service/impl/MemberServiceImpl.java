@@ -57,4 +57,9 @@ public class MemberServiceImpl implements MemberService {
         }
         return member;
     }
+
+    @Override
+    public Member selectById(Long memberId) {
+        return memberMapper.selectById(memberId);
+    }
 }
