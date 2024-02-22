@@ -268,6 +268,23 @@
             }
             , enjoy: function (index) {
                 //点赞功能
+                const objApp = this;
+                if (!objApp.state.isLogin) {
+                    warnLogin("登录后才能为短评点赞哦");
+                    return;
+                }
+                const evaluation = objApp.evaluationList[index];
+                const params = new URLSearchParams();
+                params.append("evaluationId", evaluation.evaluation_id);
+                axios.post("/api/member/enjoy", params)
+                    .then(function (response) {
+                        const json = response.data;
+                        if (json.code === "0") {
+                            evaluation.enjoy = json.data.evaluation.enjoy;
+                        } else {
+                            console.error(json);
+                        }
+                    })
             }
         }
         , mounted() {

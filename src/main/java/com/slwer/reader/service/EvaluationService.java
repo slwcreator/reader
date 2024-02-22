@@ -9,4 +9,6 @@ public interface EvaluationService {
     List<Map<String, Object>> selectByBookId(Long bookId);
 
     Evaluation evaluate(Long memberId, Long bookId, Integer score, String content);
+
+    Evaluation enjoy(Long evaluationId);
 }
