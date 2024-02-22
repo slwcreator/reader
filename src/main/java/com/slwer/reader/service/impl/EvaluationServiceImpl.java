@@ -1,5 +1,6 @@
 package com.slwer.reader.service.impl;
 
+import com.slwer.reader.entity.Evaluation;
 import com.slwer.reader.mapper.EvaluationMapper;
 import com.slwer.reader.service.EvaluationService;
 import org.springframework.stereotype.Service;
@@ -7,6 +8,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -19,5 +21,19 @@ public class EvaluationServiceImpl implements EvaluationService {
     @Override
     public List<Map<String, Object>> selectByBookId(Long bookId) {
         return evaluationMapper.selectByBookId(bookId);
+    }
+
+    @Override
+    public Evaluation evaluate(Long memberId, Long bookId, Integer score, String content) {
+        Evaluation evaluation = new Evaluation();
+        evaluation.setMemberId(memberId);
+        evaluation.setBookId(bookId);
+        evaluation.setScore(score);
+        evaluation.setContent(content);
+        evaluation.setCreateTime(new Date());
+        evaluation.setState("enable");
+        evaluation.setEnjoy(0);
+        evaluationMapper.insert(evaluation);
+        return evaluation;
     }
 }

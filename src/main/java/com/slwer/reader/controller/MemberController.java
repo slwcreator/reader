@@ -1,7 +1,9 @@
 package com.slwer.reader.controller;
 
+import com.slwer.reader.entity.Evaluation;
 import com.slwer.reader.entity.Member;
 import com.slwer.reader.entity.MemberReadState;
+import com.slwer.reader.service.EvaluationService;
 import com.slwer.reader.service.MemberService;
 import com.slwer.reader.utils.ResponseUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,9 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping("/api/member")
 public class MemberController {
     @Resource
-    MemberService memberService;
+    private MemberService memberService;
+    @Resource
+    private EvaluationService evaluationService;
 
     @PostMapping("/registe")
     public ResponseUtils registe(String username, String password, String nickname, String vc, HttpServletRequest request) {
@@ -92,6 +96,19 @@ public class MemberController {
         try {
             MemberReadState memberReadState = memberService.updateMemberReadState(memberId, bookId, readState);
             resp = new ResponseUtils().put("readState", memberReadState);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @PostMapping("/evaluate")
+    public ResponseUtils evaluate(Long memberId, Long bookId, Integer score, String content) {
+        ResponseUtils resp = null;
+        try {
+            Evaluation evaluation = evaluationService.evaluate(memberId, bookId, score, content);
+            resp = new ResponseUtils().put("evaluation", evaluation);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
