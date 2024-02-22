@@ -22,4 +22,6 @@ public interface BookService {
      * @return 图书对象
      */
     Book selectById(Long bookId);
+
+    void updateScore();
 }
