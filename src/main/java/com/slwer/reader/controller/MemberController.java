@@ -85,4 +85,17 @@ public class MemberController {
         }
         return resp;
     }
+
+    @PostMapping("/update_read_state")
+    public ResponseUtils updateMemberReadState(Long memberId, Long bookId, Integer readState) {
+        ResponseUtils resp = null;
+        try {
+            MemberReadState memberReadState = memberService.updateMemberReadState(memberId, bookId, readState);
+            resp = new ResponseUtils().put("readState", memberReadState);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
 }

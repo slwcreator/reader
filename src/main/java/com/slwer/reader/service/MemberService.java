@@ -11,4 +11,6 @@ public interface MemberService {
     Member selectById(Long memberId);
 
     MemberReadState selectMemberReadState(Long memberId, Long bookId);
+
+    MemberReadState updateMemberReadState(Long memberId, Long bookId, Integer readState);
 }
