@@ -1,6 +1,7 @@
 package com.slwer.reader.controller;
 
 import com.slwer.reader.entity.Member;
+import com.slwer.reader.entity.MemberReadState;
 import com.slwer.reader.service.MemberService;
 import com.slwer.reader.utils.ResponseUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -65,6 +66,19 @@ public class MemberController {
             member.setPassword(null);
             member.setSalt(null);
             resp = new ResponseUtils().put("member", member);
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
+
+    @GetMapping("/select_read_state")
+    public ResponseUtils selectMemberReadState(Long memberId, Long bookId) {
+        ResponseUtils resp = null;
+        try {
+            MemberReadState memberReadState = memberService.selectMemberReadState(memberId, bookId);
+            resp = new ResponseUtils().put("readState", memberReadState);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());

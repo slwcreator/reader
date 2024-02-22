@@ -245,6 +245,20 @@
                             console.error(json);
                         }
                     })
+
+                axios.get("/api/member/select_read_state?memberId=" + mid + "&bookId=" + bookId)
+                    .then(function (response) {
+                        const json = response.data;
+                        if (json.code === "0") {
+                            if (json.data.readState != null) {
+                                objApp.state.readState = json.data.readState.readState;
+                            } else {
+                                objApp.state.readState = -1;
+                            }
+                        } else {
+                            console.error(json);
+                        }
+                    })
             }
         }
     };

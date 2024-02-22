@@ -2,7 +2,9 @@ package com.slwer.reader.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.slwer.reader.entity.Member;
+import com.slwer.reader.entity.MemberReadState;
 import com.slwer.reader.mapper.MemberMapper;
+import com.slwer.reader.mapper.MemberReadStateMapper;
 import com.slwer.reader.service.MemberService;
 import com.slwer.reader.service.exception.MemberException;
 import com.slwer.reader.utils.MD5Utils;
@@ -20,6 +22,8 @@ import java.util.Random;
 public class MemberServiceImpl implements MemberService {
     @Resource
     MemberMapper memberMapper;
+    @Resource
+    MemberReadStateMapper memberReadStateMapper;
 
     @Transactional(rollbackFor = Exception.class)
     @Override
@@ -61,5 +65,13 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public Member selectById(Long memberId) {
         return memberMapper.selectById(memberId);
+    }
+
+    @Override
+    public MemberReadState selectMemberReadState(Long memberId, Long bookId) {
+        QueryWrapper<MemberReadState> wrapper = new QueryWrapper<>();
+        wrapper.eq("member_id", memberId);
+        wrapper.eq("book_id", bookId);
+        return memberReadStateMapper.selectOne(wrapper);
     }
 }
