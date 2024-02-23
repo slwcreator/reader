@@ -3,6 +3,8 @@ package com.slwer.reader.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.slwer.reader.entity.Book;
 
+import java.util.Map;
+
 public interface BookService {
     /**
      * 分页查询图书
@@ -24,4 +26,6 @@ public interface BookService {
     Book selectById(Long bookId);
 
     void updateScore();
+
+    IPage<Map<String, Object>> selectBookMap(Integer Page, Integer rows);
 }
