@@ -57,4 +57,11 @@ public class BookServiceImpl implements BookService {
         p = bookMapper.selectBookMap(p);
         return p;
     }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Book createBook(Book book) {
+        bookMapper.insert(book);
+        return book;
+    }
 }

@@ -28,4 +28,6 @@ public interface BookService {
     void updateScore();
 
     IPage<Map<String, Object>> selectBookMap(Integer Page, Integer rows);
+
+    Book createBook(Book book);
 }
