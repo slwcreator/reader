@@ -198,6 +198,9 @@
                         //表单提交处理
                         const description = editor.txt.html();
                         const params = new URLSearchParams();
+                        if (objApp.dialogModel === "update") {
+                            params.append("bookId", objApp.form.bookId);
+                        }
                         params.append("bookName", objApp.form.bookName);
                         params.append("subTitle", objApp.form.subTitle);
                         params.append("description", description);
@@ -214,6 +217,8 @@
                                     objApp.dialogFormVisible = false;
                                     if (objApp.dialogModel === "create") {
                                         objApp.changePage(objApp.pageCount);
+                                    } else if (objApp.dialogModel === "update") {
+                                        objApp.changePage(objApp.page);
                                     }
                                 } else {
                                     console.error(json);

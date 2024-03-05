@@ -30,4 +30,6 @@ public interface BookService {
     IPage<Map<String, Object>> selectBookMap(Integer Page, Integer rows);
 
     Book createBook(Book book);
+
+    Book updateBook(Book book);
 }
