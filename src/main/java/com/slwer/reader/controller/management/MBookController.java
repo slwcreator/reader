@@ -79,7 +79,8 @@ public class MBookController {
             book.setCover(cover);
             book.setEvaluationScore(0f);
             book.setEvaluationQuantity(0);
-            bookService.createBook(book);
+            Book b = bookService.createBook(book);
+            resp = new ResponseUtils().put("book", b);
         } catch (Exception e) {
             e.printStackTrace();
             resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
