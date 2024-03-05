@@ -114,4 +114,17 @@ public class MBookController {
         }
         return resp;
     }
+
+    @PostMapping("/delete")
+    public ResponseUtils deleteBook(Long bookId) {
+        ResponseUtils resp = null;
+        try {
+            bookService.deleteBook(bookId);
+            resp = new ResponseUtils();
+        } catch (Exception e) {
+            e.printStackTrace();
+            resp = new ResponseUtils(e.getClass().getSimpleName(), e.getMessage());
+        }
+        return resp;
+    }
 }

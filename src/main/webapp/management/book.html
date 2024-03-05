@@ -188,6 +188,25 @@
                     type: "warning"
                 }).then(() => {
                     //处理删除操作
+                    const params = new URLSearchParams();
+                    params.append("bookId", row.bookId);
+                    axios.post("/api/management/book/delete", params)
+                        .then(function (response) {
+                            const json = response.data;
+                            if (json.code === "0") {
+                                objApp.changePage(objApp.page);
+                                ElementPlus.ElMessage.success({
+                                    message: "数据已删除",
+                                    type: "success"
+                                });
+                            } else {
+                                console.error(json);
+                                ElementPlus.ElMessage.error({
+                                    message: json.message,
+                                    type: "error"
+                                });
+                            }
+                        })
                 });
             }
             , onSubmit: function (formName) {

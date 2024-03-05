@@ -32,4 +32,6 @@ public interface BookService {
     Book createBook(Book book);
 
     Book updateBook(Book book);
+
+    void deleteBook(Long bookId);
 }
